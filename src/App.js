@@ -3,6 +3,7 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 import { createTodo, deleteTodo } from './graphql/mutations';
 import config from './aws-exports';
+import './App.css';
 
 Amplify.configure(config);
 
@@ -25,10 +26,10 @@ function App() {
 
   const addTodo = async () => {
     try {
-      if (!formData.name) return;
+      if (!formData.name || !formData.description) return;
       await API.graphql(graphqlOperation(createTodo, { input: formData }));
-      setTodos([...todos, formData]);
-      setFormData({ name: '', description: '' });
+      fetchTodos();  // Refresh the list after adding
+      setFormData({ name: '', description: '' });  // Clear the form
     } catch (err) {
       console.error('Error adding todo:', err);
     }
@@ -37,10 +38,20 @@ function App() {
   const removeTodo = async (id) => {
     try {
       await API.graphql(graphqlOperation(deleteTodo, { input: { id } }));
-      const newTodos = todos.filter(todo => todo.id !== id);
-      setTodos(newTodos);
+      fetchTodos();  // Refresh the list after deleting
     } catch (err) {
       console.error('Error deleting todo:', err);
+    }
+  }
+
+  const removeAllTodos = async () => {
+    try {
+      for (const todo of todos) {
+        await API.graphql(graphqlOperation(deleteTodo, { input: { id: todo.id } }));
+      }
+      setTodos([]);  // Clear the list in the UI
+    } catch (err) {
+      console.error('Error deleting all todos:', err);
     }
   }
 
@@ -58,17 +69,27 @@ function App() {
         placeholder="Todo description"
       />
       <button onClick={addTodo}>Add Todo</button>
-      <div style={{ marginBottom: 30 }}>
-        {
-          todos.map(todo => (
-            <div key={todo.id || todo.name}>
-              <h2>{todo.name}</h2>
-              <p>{todo.description}</p>
-              <button onClick={() => removeTodo(todo.id)}>Delete</button>
-            </div>
-          ))
-        }
-      </div>
+      <button onClick={removeAllTodos}>Delete All Todos</button>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            todos.map(todo => (
+              <tr key={todo.id}>
+                <td>{todo.name}</td>
+                <td>{todo.description}</td>
+                <td><button onClick={() => removeTodo(todo.id)}>Delete</button></td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
     </div>
   );
 }
