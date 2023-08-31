@@ -71,8 +71,8 @@ function App() {
         onChange={e => setFormData({ ...formData, 'description': e.target.value })}
         placeholder="Todo description"
       />
-      <button onClick={addTodo}>Add Todo</button>
-      <button onClick={fetchTodos}>Fetch Todos</button>
+      <button onClick={addTodo}>データ入力</button>
+      <button onClick={fetchTodos}>データ一覧表示</button>
 
       <table>
         <thead>
@@ -96,13 +96,13 @@ function App() {
                 </td>
                 <td>{todo.name}</td>
                 <td>{todo.description}</td>
-                <td><button onClick={() => removeTodo(todo.id)}>Delete</button></td>
+                <td><button onClick={() => removeTodo(todo.id)}>データ削除</button></td>
               </tr>
             ))
           }
         </tbody>
       </table>
-      <button onClick={deleteSelectedTodos}>Delete Selected</button>
+      <button onClick={deleteSelectedTodos}>選択データ削除</button>
     </div>
   );
 }
