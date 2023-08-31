@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ueki3-dev-135446-authRole",
+      "UnauthRoleArn": "arn:aws:iam::561643958265:role/amplify-ueki3-dev-135446-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::561643958265:role/amplify-ueki3-dev-135446-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-ueki3-dev-135446-deployment",
+      "UnauthRoleName": "amplify-ueki3-dev-135446-unauthRole",
+      "StackName": "amplify-ueki3-dev-135446",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:561643958265:stack/amplify-ueki3-dev-135446/8275a020-47ba-11ee-a179-0eecbca6713b",
+      "AmplifyAppId": "d2luzvyh3adyxe"
+    },
+    "categories": {
+      "api": {
+        "ueki3": {}
+      }
+    }
+  }
+}
